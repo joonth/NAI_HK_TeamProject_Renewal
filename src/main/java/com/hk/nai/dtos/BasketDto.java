@@ -1,6 +1,6 @@
 package com.hk.nai.dtos;
 
-public class BasketDto {
+public class BasketDto implements Comparable<BasketDto> {
 	private int baskSeq;
 	private String baskId;
 	private String baskAcademyName;
@@ -35,6 +35,16 @@ public class BasketDto {
 	@Override
 	public String toString() {
 		return "BasketDto [baskSeq=" + baskSeq + ", baskId=" + baskId + ", baskAcademyName=" + baskAcademyName + "]";
+	}
+	@Override
+	public int compareTo(BasketDto bto) {
+		if (bto.getBaskSeq() > baskSeq) {
+			return -1;
+		}else if(bto.getBaskSeq() < baskSeq){
+			return 1;
+		}else {
+			return 0;			
+		}
 	}
 
 }

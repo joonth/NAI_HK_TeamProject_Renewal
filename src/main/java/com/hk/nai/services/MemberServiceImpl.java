@@ -1,5 +1,6 @@
 package com.hk.nai.services;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -161,7 +162,9 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public List<BasketDto> showMyAcList(String baskId) {
-		return memdao.showMyAcList(baskId);
+		List<BasketDto> list = memdao.showMyAcList(baskId);
+		if(list != null) Collections.sort(list);
+		return list;
 	}
 
 	@Override
