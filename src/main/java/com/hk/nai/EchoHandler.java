@@ -36,7 +36,7 @@ public class EchoHandler extends TextWebSocketHandler {
 	// 클라이언트가 서버로 메시지를 전송했을 때 실행되는 메서드
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) {
-		logger.info("{}로 부터 {} 받음", session.getId(), message.getPayload());
+		//logger.info("{}로 부터 {} 받음", session.getId(), message.getPayload());
 		try {
 			for(WebSocketSession ss : sessionList) {
 				// HttpSessionHandShakeInterceptor 설정을 통해서 httpsession 정보를 받아옴
