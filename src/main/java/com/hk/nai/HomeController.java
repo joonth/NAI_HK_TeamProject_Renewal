@@ -158,7 +158,7 @@ public class HomeController {
 						 acInfoDto.setImg(Sserv.getImg(subtitle));						 
 					 }else {	//db에 해당하는 학원의 img가 없으면 api요청해서 img를 받고 db에 저장한다.
 					     org.jsoup.nodes.Document imgData=
-					     Jsoup.connect("http://www.hrd.go.kr/jsp/HRDP/HRDPO00/HRDPOA40/HRDPOA40_2.jsp?authKey="+key+"&returnType=XML&outType=2&srchTrprId="+trprid+"&srchTrprDegr=1")
+					     Jsoup.connect("http://www.hrd.go.kr/jsp/HRDP/HRDPO00/HRDPOA60/HRDPOA60_2.jsp?authKey="+key+"&returnType=XML&outType=2&srchTrprId="+trprid+"&srchTrprDegr=1")
 					 	 .timeout(80000).maxBodySize(10*1024*1024).get();
 					     String img = util.tagTrim(imgData.select("filepath"), "filepath");				    
 					   //요청해서 받은 이미지가 없을경우 이미지없음 사진을 저장.
@@ -558,7 +558,7 @@ public class HomeController {
 	public String info(Locale locale, Model model, String subTitle) throws IOException {
 		InfoDto infoDto = new InfoDto();
 		 org.jsoup.nodes.Document docInfo=
-					Jsoup.connect("http://www.hrd.go.kr/jsp/HRDP/HRDPO00/HRDPOA40/HRDPOA40_2.jsp?authKey="+key+"&returnType=XML&outType=2&srchTrprId="+getAcInfoMap.get(subTitle).get(0).getTrprId()+"&srchTrprDegr=1")
+					Jsoup.connect("http://www.hrd.go.kr/jsp/HRDP/HRDPO00/HRDPOA60/HRDPOA60_2.jsp?authKey="+key+"&returnType=XML&outType=2&srchTrprId="+getAcInfoMap.get(subTitle).get(0).getTrprId()+"&srchTrprDegr=1")
 					.timeout(80000).maxBodySize(10*1024*1024).get();
 
 	 	infoDto.setImg(getAcInfoMap.get(subTitle).get(0).getImg())
