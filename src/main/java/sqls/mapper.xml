@@ -1,0 +1,571 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.hk.nai">
+
+	 <resultMap id="MemberDto" type="com.hk.nai.dtos.MemberDto" >
+	    <!-- property = CalDto의 field / column=db -->
+	        <result property="seq" column="M_SEQ"/>
+	        <result property="id" column="M_ID"/>
+	        <result property="pw" column="M_PW"/>
+	        <result property="nickname" column="M_NICK"/>
+	        <result property="email" column="M_EMAIL"/>
+	        <result property="grade" column ="M_GRADE"/>
+	        <result property="point" column="M_POINT"/>
+	        <result property="writeCheck" column="M_CHECK"/>
+	        <result property="rownum" column="ROWNUM"/>
+	        <result property="count" column="COUNT"/> 
+	    </resultMap>
+	    
+	    <resultMap id="AuthDto" type="com.hk.nai.dtos.AuthDto" >
+	        <result property="authId" column="M_ID"/>
+	        <result property="academyName" column="AC_NAME"/>
+	    </resultMap>
+	
+		<resultMap id="BasketDto" type="com.hk.nai.dtos.BasketDto" >
+	        <result property="baskSeq" column="B_SEQ"/>
+	        <result property="baskId" column="M_ID"/>
+	        <result property="baskAcademyName" column="AC_NAME"/>
+		</resultMap>
+	    
+		<resultMap id="RankingDto" type="com.hk.nai.dtos.RankingDto" >
+	        <result property="rankAcademyName" column="AC_NAME"/>
+	        <result property="rankScoreAverage" column="SCORE_AVG"/>
+	    </resultMap>
+	    
+		<resultMap id="StartClassDto" type="com.hk.nai.dtos.StartClassDto" >
+	        <result property="startAcademyName" column="AC_NAME"/>
+	        <result property="startClassName" column="AC_CLASS"/>
+	        <result property="startDDay" column="DDAY"/>
+	    </resultMap>
+	    
+		<resultMap id="AcademyDto" type="com.hk.nai.dtos.AcademyDto" >
+	        <result property="academyName" column="AC_NAME"/>
+	    </resultMap>
+	    
+	    <resultMap id="CalDto" type="com.hk.nai.dtos.CalDto">
+	  		<result property="m_seq" column="M_SEQ"/>
+	  		<result property="m_id" column="M_ID"/> 
+	  		<result property="ac_seq" column="AC_SEQ"/>
+	  		<result property="ac_name" column="AC_NAME"/>
+	  		<result property="ac_class" column="AC_CLASS"/>	
+	  		<result property="ac_location" column="AC_LOCATION"/>
+	  		<result property="ac_cre_date" column="AC_CRE_DATE"/>	
+	  		<result property="ac_end_date" column="AC_END_DATE"/>	
+	  		<result property="rk" column="RK"/>	
+  		</resultMap>
+<!-- 					수민 					-->
+
+	<!-- 회원가입 -->    
+	<select id="checkid" resultType="string" parameterType="String">
+		SELECT M_ID FROM MEMBER WHERE M_ID = #{id}
+	</select>
+	
+	<select id="checknickname" resultType="string" parameterType="String">
+		SELECT M_NICK FROM MEMBER WHERE M_NICK = #{nickname}
+	</select>
+	
+	<select id="checkemail" resultType="string" parameterType="String">
+		SELECT M_EMAIL FROM MEMBER WHERE M_EMAIL = #{email}
+	</select>
+	
+	<insert id="insertmember" parameterType="MemberDto">
+		INSERT INTO MEMBER 
+		(M_SEQ, M_ID, M_PW, M_NICK, M_EMAIL, M_GRADE, M_POINT, M_CHECK) 
+		VALUES (
+			MEMBER_SEQ.NEXTVAL
+			, #{id}
+			, #{pw}
+			, #{nickname}
+			, #{email}
+			, #{grade}
+			, 0
+			, 'N'
+		)
+	</insert>
+	
+	<insert id="insertauth" parameterType="AuthDto">
+		INSERT INTO AUTH 
+		(M_ID, AC_NAME) 
+		VALUES (
+			#{authId}, 
+			#{academyName}
+		)
+	</insert>
+	
+	<select id="signin" resultMap="MemberDto" parameterType="String">
+		SELECT * FROM MEMBER WHERE M_ID = #{id}
+	</select>
+	
+	<!-- 아이디 비번 찾기 -->
+	<select id="findid" resultType="string" parameterType="string">
+		SELECT M_ID FROM MEMBER WHERE M_EMAIL = #{email}
+	</select>
+	
+	<select id="findpw" resultType="string" parameterType="MemberDto">
+		SELECT M_EMAIL FROM MEMBER WHERE M_EMAIL = #{email} AND M_ID = #{id}
+	</select>
+	
+	<update id="temppw" parameterType="MemberDto">
+		UPDATE MEMBER SET M_PW = #{pw} WHERE M_ID = #{id}
+	</update>
+	
+	<!-- 마이페이지 -->
+	<select id="showmyinfo" resultMap="MemberDto" parameterType="string">
+		SELECT * FROM MEMBER WHERE M_ID = #{id}
+	</select>
+	
+	<select id="showauthinfo" resultMap="AuthDto" parameterType="string">
+		SELECT * FROM AUTH WHERE M_ID = #{id}
+	</select>
+	
+	<update id="updatepw" parameterType="MemberDto">
+		UPDATE MEMBER SET M_PW = #{pw} WHERE M_ID = #{id}
+	</update>
+	
+	<update id="updatenickname" parameterType="MemberDto">
+		UPDATE MEMBER SET M_NICK = #{nickname} WHERE M_ID = #{id}
+	</update>
+	
+	<update id="updateemail" parameterType="MemberDto">
+		UPDATE MEMBER SET M_EMAIL = #{email} WHERE M_ID = #{id}
+	</update>
+	
+	<update id="updateauth" parameterType="AuthDto">
+		update auth set ac_name = #{academyName} where m_id = #{authId}
+	</update>
+	
+	<delete id="deletemember" parameterType="MemberDto">
+		DELETE FROM MEMBER WHERE M_ID = #{id} AND M_PW = #{pw}
+	</delete>  	
+	<delete id="deleteauth" parameterType="AuthDto">
+		DELETE FROM AUTH WHERE M_ID = #{authId}
+	</delete>
+
+	<!-- 마이페이지 : 찜한 학원 -->
+	<select id="showmyaclist" resultMap="BasketDto" parameterType="string">
+		SELECT * FROM BASKET WHERE M_ID = #{baskId}
+	</select>
+	
+	<delete id="delmyac" parameterType="integer">
+		DELETE FROM BASKET WHERE B_SEQ IN
+		<foreach collection="array" item="item" open="("  separator="," close=")">
+			#{item}
+		</foreach>
+	</delete> 
+	<!-- 랭킹 -->
+	<select id="ranking" resultMap="RankingDto">
+		SELECT AC_NAME, SCORE_AVG FROM VIEW_AC_RANKING 
+		<![CDATA[
+		WHERE ROWNUM<=10
+		]]>
+	</select>
+
+	<!-- 개강마감임박 d-14 -->
+	<select id="startclass" resultMap="StartClassDto">
+	<!-- 20180630 = TEST용 나중에 sysdate로 변경 -->
+		SELECT DISTINCT AC_NAME, AC_CLASS,
+		<![CDATA[
+		REPLACE(AC_CRE_DATE,'-','')-TO_CHAR(sysdate,'YYYYMMDD') AS DDAY
+		FROM ACADEMY
+		WHERE REPLACE(AC_CRE_DATE,'-','')-TO_CHAR(sysdate,'YYYYMMDD') BETWEEN 0 AND 14
+		ORDER BY DDAY ASC
+		]]>
+	</select>
+	<!--  학원명 검색  -->
+	<select id="searchacname" resultMap="AcademyDto" parameterType="string">
+		<![CDATA[
+		SELECT DISTINCT(AC_NAME) FROM AC_IMG WHERE AC_NAME LIKE '%' || #{academyName} || '%'
+		]]>
+	</select>
+
+<!-- 					이한준					-->
+	<select id="getScore" parameterType="String" resultType="Integer">
+  		SELECT ac_score FROM ac_comment WHERE ac_name = #{subTitle}
+  	</select>
+  	
+  	<select id="getComment" parameterType="String" resultType="CommentDto">
+  		SELECT ac_name,ac_comment,ac_score,m_id,cmt_date FROM ac_comment WHERE ac_name = #{subTitle} order by cmt_num
+  	</select>
+  	
+  	<insert id="addComment" parameterType="CommentDto">
+  		insert into ac_comment values(#{ac_name},#{ac_comment},#{ac_score},#{m_id},cmtnum_seq.nextval,sysdate)
+  	</insert>
+  	
+  	<select id="checkAuth" resultMap="AuthDto">
+  		select * from auth
+  	</select>
+  	
+  	<select id="checkDupe" parameterType="String" resultType="String">
+  		select M_CHECK from MEMBER WHERE M_ID =#{id}
+  	</select>
+  	
+  	<select id="checkPoint" parameterType="String" resultType="int" >
+  		select M_POINT from MEMBER where M_ID = #{id}
+  	</select>
+  	
+  	<update id="addPoint" parameterType="MemberDto">
+  		UPDATE MEMBER SET M_POINT = M_POINT + #{point} WHERE M_ID =#{id}
+  	</update>
+  	
+  	<insert id="addImgToDb" parameterType="AcInfoDto">
+  		INSERT INTO AC_IMG VALUES(#{subTitle},#{img})
+  	</insert>
+  	
+  	<update id="updateCheck" parameterType="MemberDto">
+  		update member set M_CHECK = #{writeCheck} where M_ID = #{id}
+  	</update>
+  	 
+  	 
+  	<!-- websocket message -->
+  	<insert id="sendMessage" parameterType="MessageDto">
+  		insert into notice values(message_seq.nextval,#{n_receiver},#{n_sender},to_char(sysdate,'MM-DD hh24:mi'),#{n_content},#{ns_state_code})
+  	</insert>
+  	
+  	<delete id="deleteMessage" parameterType="int">
+  		delete notice where n_seq =#{n_seq}
+  	</delete>
+  	
+  	<select id="getMessageList" parameterType="String" resultType="MessageDto">
+  		select * from notice where n_receiver = #{n_receiver} order by n_time
+  	</select>
+  	
+  	<select id="getMessage" parameterType="int" resultType="MessageDto">
+  		select * from notice where n_seq = #{n_seq}
+  	</select>
+  	
+  	<select id="getMsgNum" parameterType="String" resultType="MessageDto">
+  		select n_seq from notice where n_receiver = #{n_receiver}
+  	</select>
+  	
+  	<select id="getImg" parameterType="String" resultType="String">
+  		select IMG from ac_img where ac_name = #{subtitle}
+  	</select>
+  	
+  	<select id="getMemberList" resultMap="MemberDto">
+  		select * from member
+  	</select>
+  	
+  	<insert id="putBasket" parameterType="BasketDto">
+  		insert into basket values(basket_seq.nextval,#{baskId},#{baskAcademyName})
+  	</insert>
+  	
+  	<select id="getBasketMname" parameterType="String" resultMap="BasketDto">
+  		select M_ID from basket where AC_NAME = #{AC_NAME}
+  	</select>
+  	
+  	<delete id="deleteComment" parameterType="String">
+  		delete ac_comment where m_id = #{m_id}
+  	</delete>
+  	
+  	<delete id="delOutOfDateData">
+  		delete ACADEMY
+  	</delete>
+  	
+  	<insert id="insUpToDateData" parameterType="AcInfoDto">
+  		insert into academy values(academy_seq.nextval,#{subTitle},#{title},#{trastartdate},#{address},'n')
+  	</insert>
+  	
+  	<select id="getAcClassNum" resultType="int">
+  		select count(*) from academy
+  	</select>
+  	
+
+<!-- 					황인후					-->
+	<!--   게시판쿼리 -->
+  	<select id="getAllContent" resultType="BoardDto">
+  		SELECT B_SEQ,M_NICK,B_TITLE,B_CONTENT,B_REGDATE,B_READCOUNT
+  		FROM BOARD
+  		ORDER BY B_SEQ DESC
+  	</select>
+  
+  	<insert id="insertBoard" parameterType="BoardDto">
+  		INSERT INTO BOARD VALUES
+  		(BOARD_SEQ.NEXTVAL,#{m_nick},#{b_title},#{b_content},SYSDATE,0,0,0,0)
+  	</insert>
+  	
+  	<select id="getBoard" resultType="BoardDto" parameterType="int">
+  		SELECT B_SEQ,M_NICK,B_REGDATE,B_TITLE,B_CONTENT
+  		FROM BOARD WHERE B_SEQ=#{b_seq}
+  	</select>
+  	
+  	<update id="updateBoard" parameterType="BoardDto">
+  		UPDATE BOARD
+  		SET B_TITLE=#{b_title},B_CONTENT=#{b_content},B_REGDATE=sysdate,B_LIKE=#{b_like}
+  		WHERE B_SEQ=#{b_seq}
+  	</update>
+  	
+  	<update id="b_readCount" parameterType="int">
+  		UPDATE BOARD SET B_READCOUNT=B_READCOUNT+1 WHERE B_SEQ=#{b_seq}
+  	</update>
+  	
+  	
+  	<update id="b_like_up" parameterType="BoardDto">
+  		UPDATE BOARD SET B_LIKE=B_LIKE+1 WHERE B_SEQ=#{b_seq}
+  	</update>
+  	
+  	<update id="b_like_down" parameterType="BoardDto">
+  		UPDATE BOARD SET B_LIKE=B_LIKE-1 WHERE B_SEQ=#{b_seq}
+  	</update>
+  	
+  	<delete id="delBoard" parameterType="int">
+  		DELETE FROM BOARD WHERE B_SEQ=#{b_seq}
+  	</delete>
+  	<select id="getB_like" resultType="int" parameterType="BoardDto">
+  		select b_like from board where b_seq=#{b_seq}
+  	</select>
+  	
+  	<select id="getPointCheck" resultType="int" parameterType="BoardDto">
+  		SELECT POINTCHECK FROM BOARD WHERE B_SEQ=#{b_seq}
+  	</select>
+  	
+	<!--   	닉네임변경시 게시판,댓글,좋아요 테이블의 닉네임도 변경 -->
+  	<update id="bUpdateNick" parameterType="map">
+  		UPDATE BOARD 
+  		SET M_NICK=#{m_nick}
+  		WHERE M_NICK=#{ori_nick}
+  	</update>
+  	
+  	<update id="cUpdateNick" parameterType="map">
+  		UPDATE REPLY
+  		SET M_NICK=#{m_nick}
+  		WHERE M_NICK=#{ori_nick}
+  	</update>
+	
+  	<update id="lUpdateNick" parameterType="map">
+  		UPDATE LIKETO
+  		SET M_NICK=#{m_nick}
+  		WHERE M_NICK=#{ori_nick}
+  	</update>
+  	<!-- 페이징 처리 -->
+    
+	<!--     최신순으로 10개씩 출력하는 쿼리 -->
+    <select id="listCriteria" resultType="BoardDto" parameterType="String"> 
+       <![CDATA[
+			select * from
+						(
+							select ROW_NUMBER() OVER ( ORDER BY b_seq desc) rn,b_seq,m_nick,b_title,b_content,b_regdate,b_readcount,b_like,cmt_count from board
+				 		)
+ 			 where ceil(rn/15)=#{page}
+ 			
+		]]>
+    </select>
+	<!--     조회순으로 15개식 출력하는 쿼리 -->
+    <select id="listCriteria1" resultType="BoardDto" parameterType="String"> 
+       <![CDATA[
+			select * from
+						(
+							select ROW_NUMBER() OVER ( ORDER BY b_readcount desc,b_seq desc) rn,b_seq,m_nick,b_title,b_content,b_regdate,b_readcount,b_like,cmt_count from board
+				 		)
+ 			 where ceil(rn/15)=#{page}
+ 			
+		]]>
+    </select>  
+    
+    <!--     추천순으로 15개식 출력하는 쿼리 -->
+    <select id="listCriteria2" resultType="BoardDto" parameterType="String"> 
+       <![CDATA[
+			select * from
+						(
+							select ROW_NUMBER() OVER ( ORDER BY b_like desc,b_seq desc) rn,b_seq,m_nick,b_title,b_content,b_regdate,b_readcount,b_like,cmt_count from board
+				 		)
+ 			 where ceil(rn/15)=#{page}
+ 			
+		]]>
+    </select>  
+    
+     <!--     댓글순으로 15개식 출력하는 쿼리 -->
+    <select id="listCriteria3" resultType="BoardDto" parameterType="String"> 
+       <![CDATA[
+			select * from
+						(
+							select ROW_NUMBER() OVER ( ORDER BY cmt_count desc,b_seq desc) rn,b_seq,m_nick,b_title,b_content,b_regdate,b_readcount,b_like,cmt_count from board
+				 		)
+ 			 where ceil(rn/15)=#{page}
+ 			
+		]]>
+    </select>  
+    
+    <!-- 전체 게시글 수를 구하는 쿼리 -->
+    <select id="getTotalCount" resultType="java.lang.Integer">
+        select count(*) from
+        board
+    </select>
+    <!-- 댓글쿼리 -->
+	<select id="commentList" resultType="CommentDto1">
+  		SELECT R_SEQ,M_NICK,R_CONTENT,R_REGDATE
+  		FROM REPLY
+  		WHERE B_SEQ=#{b_seq}
+  		ORDER BY R_SEQ DESC
+  	</select>
+  
+  	<insert id="insertComment" parameterType="CommentDto1">
+  		INSERT INTO REPLY VALUES
+  		(REPLY_SEQ.NEXTVAL,#{b_seq},#{m_nick},#{r_content},sysdate)  		
+  	</insert>
+  	
+  	<update id="updateComment" parameterType="CommentDto1">
+  		UPDATE REPLY
+  		SET R_CONTENT=#{r_content},R_REGDATE=sysdate
+  		WHERE R_SEQ=#{r_seq}
+  	</update>
+  	
+  	<delete id="delComment" parameterType="int">
+  		DELETE FROM REPLY WHERE R_SEQ=#{r_seq}
+  	</delete>	
+  	
+  	<update id="upComment" parameterType="int">
+  		UPDATE BOARD SET CMT_COUNT=CMT_COUNT+1
+  		WHERE B_SEQ=#{b_seq}
+  	</update>
+  	
+  	<update id="downComment" parameterType="int">
+  		UPDATE BOARD SET CMT_COUNT=CMT_COUNT-1
+  		WHERE B_SEQ=#{b_seq}
+  	</update>
+	<!-- 	특정댓글조회 -->
+	<select id="readComment" resultType="CommentDto1">
+		SELECT R_SEQ,B_SEQ,M_NICK,R_CONTENT,R_REGDATE
+		FROM REPLY
+		WHERE R_SEQ=#{r_seq}
+	</select>
+
+	<!-- 	게시글 좋아요기능 -->
+
+	
+	<select id="countbyLike" resultType="int" parameterType="LikeDto">
+		SELECT COUNT(LIKE_SEQ) AS cnt
+		FROM LIKETO
+		WHERE B_SEQ=#{b_seq} AND M_NICK=#{m_nick}
+	</select>	
+	
+	<insert id="create" parameterType="LikeDto">
+		INSERT INTO LIKETO(LIKE_SEQ,B_SEQ,M_NICK,LIKE_CHECK)
+		VALUES((SELECT NVL(MAX(LIKE_SEQ),0)+1 as LIKE_SEQ FROM LIKETO),
+		#{b_seq},#{m_nick},0)
+	</insert>
+	
+	<update id="like_check" parameterType="LikeDto">
+		UPDATE LIKETO
+		SET LIKE_CHECK=LIKE_CHECK+1
+		WHERE M_NICK=#{m_nick} AND B_SEQ=#{b_seq}
+	</update>
+		
+	<update id="like_check_cancle" parameterType="LikeDto">
+		UPDATE LIKETO
+		SET LIKE_CHECK=0
+		WHERE M_NICK=#{m_nick} AND B_SEQ=#{b_seq}
+	</update>
+	
+	<select id="read" resultType="LikeDto" parameterType="LikeDto" >
+		SELECT LIKE_SEQ,B_SEQ,M_NICK,LIKE_CHECK
+		FROM LIKETO
+		WHERE B_SEQ=#{b_seq} AND M_NICK=#{m_nick}
+	</select>
+	
+	<select id="like_check_read" resultType="String" parameterType="LikeDto">
+		SELECT LIKE_CHECK
+		FROM LIKETO
+		WHERE B_SEQ=#{b_seq} AND M_NICK=#{m_nick}
+	</select>
+	
+	<update id="addPoint1" parameterType="MemberDto">
+  		UPDATE MEMBER SET M_POINT = M_POINT + #{point} WHERE M_NICK =#{nickname}
+  	</update>
+	
+	<select id="checkPoint1" parameterType="String" resultType="int" >
+  		select M_POINT from MEMBER where M_NICK = #{nickname}
+  	</select>
+  	<update id="pointCheckUp" parameterType="int">
+  		UPDATE BOARD SET POINTCHECK = 1 WHERE B_SEQ=#{b_seq}
+  	</update>
+  	
+
+<!-- 					김설백					-->
+<!-- 캘린더 기능 -->
+ <select id="getCalList" resultMap="CalDto"> 
+  	<![CDATA[	  
+	 SELECT AC_SEQ, AC_NAME,AC_CLASS, AC_CRE_DATE, AC_END_DATE,AC_LOCATION
+	 FROM ACADEMY
+	]]>
+  </select>
+  
+  <select id="getCalDetail" resultMap="CalDto" parameterType="CalDto">
+  SELECT A.AC_NAME, A.AC_CLASS, A.AC_LOCATION, A.AC_CRE_DATE, A.AC_END_DATE, B.IMG
+	FROM ACADEMY A INNER JOIN AC_IMG B
+	ON A.AC_NAME = B.AC_NAME 
+	WHERE ROWNUM =1 AND A.AC_NAME=#{ac_name} AND AC_SEQ=#{ac_seq}
+  </select>
+  
+ <!--  <select id="getCalDetail" resultMap="CalDto" parameterType="int">
+  	SELECT AC_SEQ, AC_NAME, AC_CLASS, AC_LOCATION, AC_CRE_DATE, AC_END_DATE
+  	FROM ACADEMY
+  	WHERE AC_SEQ=#{ac_seq}
+  </select> -->
+  
+  
+   <!-- 학원 이미지 가져오기 -->
+ 	<select id="getCalAcImg" resultMap="CalDto" >
+    SELECT A.AC_NAME, B.IMG
+	FROM ACADEMY A INNER JOIN AC_IMG B
+	ON A.AC_NAME = B.AC_NAME 
+	WHERE ROWNUM = 1 AND A.AC_SEQ=#{ac_seq} AND A.AC_NAME=#{ac_name}
+	</select>  
+  
+<!--   	개강일별 순위 -->
+  <select id="getCalRK" resultMap="CalDto"> 
+    SELECT A.AC_NAME,A.AC_CLASS,A.AC_CRE_DATE,B.SCORE_AVG,
+ 	ROW_NUMBER() OVER(PARTITION BY A.AC_CRE_DATE ORDER BY B.SCORE_AVG DESC) AS RK
+ 	FROM ACADEMY A, VIEW_AC_RANKING B
+ 	WHERE A.AC_NAME=B.AC_NAME 
+ 	ORDER BY A.AC_CRE_DATE ASC
+  </select>
+  
+ <!--  찜한 학원의 강좌 출력 -->
+  <select id="getCartAcademy" resultMap="CalDto"> 
+  	SELECT AC_SEQ, AC_NAME, AC_CLASS, AC_LOCATION, AC_CRE_DATE, AC_END_DATE
+ 	FROM ACADEMY 
+	WHERE AC_NAME =#{ac_name}
+  </select>
+  
+  
+  <!-- 관리자 회원관리 기능 -->
+	<select id="getUserList" resultMap="MemberDto">	
+  		SELECT ROWNUM, M_SEQ, M_ID, M_PW, M_NICK, M_EMAIL, M_GRADE,M_POINT,M_CHECK
+ 		FROM MEMBER ORDER BY M_SEQ ASC
+
+  	</select>
+  <!-- 회원 상세보기 -->
+  	<select id="getUser" resultMap="MemberDto" parameterType="int">
+  		SELECT M_SEQ, M_ID, M_PW, M_NICK, M_EMAIL, M_GRADE, M_POINT, M_CHECK 
+  		FROM MEMBER 
+  		WHERE M_SEQ=#{seq}
+  	</select>
+  	
+  <!-- 등급 변경 기능 -->
+  	<update id="updateGrade" parameterType="MemberDto">
+  		 UPDATE MEMBER
+		 SET M_GRADE=#{grade} WHERE M_SEQ=#{seq}
+  	</update>
+  	
+  	<!-- 회원정보 수정기능 -->
+  	<update id="userUpdate" parameterType="MemberDto">
+  		UPDATE MEMBER
+  		SET M_NICK=#{nickname}, M_EMAIL=#{email}, M_GRADE=#{grade}
+  		WHERE M_SEQ = #{seq}	
+  	</update>
+  	
+  	<!-- 체크박스 회원삭제기능 -->
+  	<delete id="checkDel" parameterType="java.lang.String"  statementType="PREPARED">
+ 		 DELETE FROM MEMBER WHERE M_ID=#{id}	
+  	</delete>
+  	
+	<!-- 회원삭제기능 -->
+  	<delete id="delUser" parameterType="int">
+  		DELETE FROM MEMBER WHERE M_SEQ=#{seq}
+  	</delete>
+  	
+ 
+</mapper>
