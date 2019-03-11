@@ -3,8 +3,6 @@ package com.hk.nai.daos;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
-import com.hk.nai.dtos.BoardDto;
 import com.hk.nai.dtos.MemberDto;
 
 @Repository

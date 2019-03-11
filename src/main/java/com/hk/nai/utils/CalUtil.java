@@ -2,11 +2,7 @@ package com.hk.nai.utils;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
 import java.util.List;
-
-import org.slf4j.spi.MDCAdapter;
-
 import com.hk.nai.dtos.CalDto;
 
 public class CalUtil {

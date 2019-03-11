@@ -5,7 +5,6 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import com.hk.nai.dtos.AuthDto;
-import com.hk.nai.dtos.commentDto;
 
 
 @Repository
