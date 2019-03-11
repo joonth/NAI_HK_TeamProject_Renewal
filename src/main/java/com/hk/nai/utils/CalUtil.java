@@ -25,11 +25,7 @@ public class CalUtil {
 	}
 	//DB에서 받아온 varchar2타입 ac_cre_date(개강일)을 jsp에서 쓸수 있게 DByear,DBmonth,DBday로 쪼개기
 	public void setToDates(String ac_cre_date, String m) {
-		//날짜형식: yyyy-MM-dd
-		int DByear=Integer.parseInt(ac_cre_date.substring(0, 4));
-		int DBmonth=Integer.parseInt(ac_cre_date.substring(6, 8));
-		int DBday=Integer.parseInt(ac_cre_date.substring(8, 10));
-		
+		//날짜형식: yyyy-MM-dd		
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy년MM월dd일 ");
 		Timestamp tm=Timestamp.valueOf(m);//문자열을 Date타입으로 변환
 		this.toDates=sdf.format(tm);
