@@ -1,0 +1,20 @@
+language: java
+jdk:
+  - openjdk8
+  
+branchs:
+  only:
+    - master
+    
+# Travis CI 서버의 Home
+cache:
+  directories:
+    - '$HOME/.m2'
+    
+script: "~/APP/GIT/NAI_HK_TeamProject_Renewal/ mvn package"
+
+# CI 실행 완료시 메일로 알람
+notifications:
+  email:
+    recipients:
+      - joonthy@gmail.com      
