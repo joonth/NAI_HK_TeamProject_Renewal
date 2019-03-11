@@ -5,6 +5,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AcInfoDto implements Serializable ,Comparable<AcInfoDto> {
+	
+	 private static final long serialVersionUID = 1L;
+	
 	private String img;
 	private String title;
 	private String subTitle;

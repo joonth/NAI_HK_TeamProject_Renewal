@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class InfoDto implements Serializable {
+	
+	 private static final long serialVersionUID = 1L;
 
 	private String addr1;
 	private String addr2;

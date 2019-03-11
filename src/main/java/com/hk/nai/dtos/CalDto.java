@@ -3,6 +3,9 @@ package com.hk.nai.dtos;
 import java.io.Serializable;
 
 public class CalDto implements Serializable {
+	
+	 private static final long serialVersionUID = 1L;
+	
 	private int m_seq; //회원번호
 	private String m_id; //회원아이디
 	private int ac_seq; //학원번호

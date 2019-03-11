@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class commentDto implements Serializable {
 	
+	 private static final long serialVersionUID = 1L;
+	
 	private String ac_name;
 	private String m_id;
 	private String ac_comment;
