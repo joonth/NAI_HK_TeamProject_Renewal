@@ -26,8 +26,6 @@ deploy:
       repo: joonth/NAI_HK_TeamProject_Renewal # Github 주소
       branch: master
 
-
-
 # CI 실행 완료시 메일로 알람
 notifications:
   email:
