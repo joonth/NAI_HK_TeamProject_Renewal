@@ -90,7 +90,7 @@ public class AdminController {
 	public String checkDel(@RequestParam(value="chk") String [] chk, ModelMap modelMap)throws Exception {
 		for (String id : chk) {
 			System.out.println("회원체크박스 삭제: = " + id);
-			int delete_count = adminService.checkDel(id);
+			adminService.checkDel(id);
 		}
 			return "redirect:userList.do";	
 	}
