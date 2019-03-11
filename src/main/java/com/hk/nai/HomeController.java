@@ -250,17 +250,21 @@ public class HomeController {
 				return null;
 			}
 			List<AcademyDto> academy = memberService.searchAcName(replacedAcName);
-			JSONArray list = new JSONArray();
-			JSONObject obj = null;
+			//JSONArray list = new JSONArray();
+			//JSONObject obj = null;
+			ArrayList<JSONObject> list = new ArrayList<>();
+			HashMap<String,Object> obj ;
 			if(academy != null) {
 				for(int i=0; i<academy.size(); i++) {
 					String ac = academy.get(i).getAcademyName().replaceAll(" ", "");
 					System.out.println(ac);
-					obj = new JSONObject();
+					//obj = new JSONObject();
+					obj = new HashMap<String,Object>();
 					obj.put("data", ac);
-					list.add(obj);
+					JSONObject objJSON = new JSONObject(obj);
+					list.add(objJSON);
 				}
-				return list;
+				return (JSONArray) list;
 			}
 			return null;
 		}

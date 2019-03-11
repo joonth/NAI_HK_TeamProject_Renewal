@@ -2,7 +2,7 @@ package com.hk.nai;
 
 
 import java.util.ArrayList;
-
+import java.util.HashMap;
 import java.util.List;
 
 import java.util.Locale;
@@ -270,7 +270,8 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 	@ResponseBody
 	@RequestMapping(value="/like.do",method=RequestMethod.GET, produces="text/plain;charset=UTF-8")
 	public String like(int b_seq,String writer,String m_nick,HttpSession session,HttpServletRequest request,Model model) {
-		JSONObject obj = new JSONObject();
+		HashMap<String,Object> obj = new HashMap<>();
+		
 		
 		ArrayList<String> msgs = new ArrayList<String>();
 
@@ -314,6 +315,8 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 		obj.put("b_like", b_like);
 		obj.put("msg", msgs);
 		
-		return obj.toJSONString();
+		JSONObject objJSON = new JSONObject(obj);
+		
+		return objJSON.toJSONString();
 	}
 }
