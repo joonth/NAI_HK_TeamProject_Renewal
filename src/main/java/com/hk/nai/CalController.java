@@ -43,7 +43,6 @@ public class CalController {
 	@RequestMapping(value = "/calendar.do", method = RequestMethod.GET)
 	public String Calendar(HttpServletRequest request, Locale locale, Model model) {
 		logger.info("캘린더보기", locale);	
-		List<CalDto> javaList = new ArrayList<CalDto>();
 		List<CalDto> calViewList = calService.getCalList();
 		model.addAttribute("calViewList", calViewList);
 
