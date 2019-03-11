@@ -1,4 +1,4 @@
-# 국과수 (국비지원과정수업정보)
+# 국과수 (국비지원과정수업정보) [![Build Status](https://travis-ci.org/joonth/NAI_HK_TeamProject_Renewal.svg?branch=master)](https://travis-ci.org/joonth/NAI_HK_TeamProject_Renewal)
 국과수는 국비학원에 대한 수강평을 바탕으로 신뢰성있는 학원정보를 제공하는 사이트 입니다.
 
 ### 기획의도
