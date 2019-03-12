@@ -14,10 +14,10 @@ cache:
 script: "mvn package"
 
 before_deploy:
-  if ! [ "$BEFORE_DEPLOY_RUN" == 0 ]; then
+  if ! [ "$BEFORE_DEPLOY_RUN" ]; then
+   export BEFORE_DEPLOY_RUN=1;
    mkdir -p deploy
    mv target/nai-1.0.0-BUILD-SNAPSHOT.war deploy/nai.war
-   BEFORE_DEPLOY_RUN = 1;
   fi
   
 deploy:
