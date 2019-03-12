@@ -16,10 +16,10 @@ script: "mvn package"
 before_deploy:
   - BEFORE_DEPLOY_RUN= "yes"
   - if [ "${BEFORE_DEPLOY_RUN}" == "yes" ]; then
-      BEFORE_DEPLOY_RUN = "no";
-      mkdir -p deploy;
-      mv target/nai-1.0.0-BUILD-SNAPSHOT.war deploy/nai.war;
-    fi
+  -   BEFORE_DEPLOY_RUN = "no";
+  -   mkdir -p deploy;
+  -   mv target/nai-1.0.0-BUILD-SNAPSHOT.war deploy/nai.war;
+  - fi
   
 deploy:
   - provider: s3
