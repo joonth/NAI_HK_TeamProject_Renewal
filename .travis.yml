@@ -40,7 +40,7 @@ deploy:
     key: nai.war
     bundle_type: war
     application: nai
-    deploy_group: nai-group
+    deployment_group: nai-group
     region: ap-northeast-2
     wait-until-deployed: true
     on:
