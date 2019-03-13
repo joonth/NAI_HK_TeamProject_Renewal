@@ -16,7 +16,7 @@ script: "mvn package"
 before_deploy:
   - mkdir -p deploy; 
   - cp target/nai-1.0.0-BUILD-SNAPSHOT.war deploy/nai.war; 
-  - zip nai.zip deploy/nai.war
+  - zip -r nai deploy/nai.war
     
   
 deploy:
