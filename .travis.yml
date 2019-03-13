@@ -16,7 +16,7 @@ script: "mvn package"
 before_deploy:
   - mkdir -p deploy; 
   - cp target/nai-1.0.0-BUILD-SNAPSHOT.war deploy/nai.war; 
-
+  - zip nai.zip deploy/nai.war
     
   
 deploy:
@@ -37,8 +37,8 @@ deploy:
     access_key_id: $AWS_ACCESS_KEY # Travis repo settings에 설정된 값
     secret_access_key: $AWS_SECRET_KEY # Travis repo settings에 설정된값
     bucket: nai-deploy # S3 버킷 이름
-    key: nai.war
-    bundle_type: war
+    key: nai.zip
+    bundle_type: zip
     application: nai
     deployment_group: nai-group
     region: ap-northeast-2
