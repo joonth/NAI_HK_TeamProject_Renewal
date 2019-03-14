@@ -14,9 +14,12 @@ cache:
 script: "mvn package"
 
 before_deploy:
-  - mkdir -p deploy; 
-  - cp target/nai-1.0.0-BUILD-SNAPSHOT.war deploy/nai.war; 
-  - zip -r nai deploy/nai.war
+    if ! [ "$run" ]; then
+      mkdir -p deploy; 
+      zip -r nai *;
+      mv nai.zip deploy/nai.zip;
+      run="no";   
+    fi
     
   
 deploy:
