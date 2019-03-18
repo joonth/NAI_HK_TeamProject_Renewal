@@ -3,14 +3,15 @@ os: linux
 files:
   - source: /
     destination: /home/ec2-user/app/travis/build/
-  - object: /home/ec2-user/app/travis/build/execute-deploy.sh
+  - object: /home/ec2-user/app/travis/build/
     mode: 644
     acls:
       - "d:u::rwx"
       - "d:g::rwx"
       - "d:o::rwx"
     owner: ec2-user
-      
+    type:
+      - directory  
 hooks:
   AfterInstall: # 배포가 끝나면 아래 명령어를 실행
     - location: execute-deploy.sh
