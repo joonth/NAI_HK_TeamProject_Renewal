@@ -160,27 +160,27 @@
 		
 		<div class="figures">
 			<div>
-				<h2 data-chaffle="en"><strong>1254</strong>&nbsp;</h2><h2><span>명</span></h2>				
+				<h2 data-chaffle="en"><strong>1234</strong>&nbsp;</h2><h2><span>명</span></h2>				
 				<p class="description">가입한 회원수</p>
 			</div>
 			<hr>
 			<div>
-				<h2 data-chaffle="en"><strong>567</strong>&nbsp;</h2><h2><span>명</span></h2>				
+				<h2 data-chaffle="en"><strong>123</strong>&nbsp;</h2><h2><span>명</span></h2>				
 				<p class="description">인증된 회원수</p>
 			</div>
 			<hr>
 			<div>
-				<h2 data-chaffle="en"><strong>198</strong>&nbsp;</h2><h2><span>개</span></h2>
+				<h2 data-chaffle="en"><strong>123</strong>&nbsp;</h2><h2><span>개</span></h2>
 				<p class="description">등록된 학원수</p>
 			</div>
 			<hr>
 			<div>
-				<h2 data-chaffle="en"><strong>533</strong>&nbsp;</h2><h2><span>개</span></h2>
+				<h2 data-chaffle="en"><strong>123</strong>&nbsp;</h2><h2><span>개</span></h2>
 				<p class="description">등록된 과정수</p>
 			</div>
 			<hr>
 			<div>
-				<h2 data-chaffle="en"><strong>159</strong>&nbsp;</h2><h2><span>개</span></h2>
+				<h2 data-chaffle="en"><strong>123</strong>&nbsp;</h2><h2><span>개</span></h2>
 				<p class="description">작성된 학원평</p>
 			</div>
 		</div>
