@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.json.simple.JSONArray;
+import org.json.JSONArray;
 import org.json.simple.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
@@ -250,7 +250,6 @@ public class HomeController {
 				return null;
 			}
 			List<AcademyDto> academy = memberService.searchAcName(replacedAcName);
-			//JSONArray list = new JSONArray();
 			//JSONObject obj = null;
 			ArrayList<JSONObject> list = new ArrayList<>();
 			HashMap<String,Object> obj ;
@@ -264,7 +263,9 @@ public class HomeController {
 					JSONObject objJSON = new JSONObject(obj);
 					list.add(objJSON);
 				}
-				return (JSONArray) list;
+				
+				JSONArray JSONlist = new JSONArray();
+				return JSONlist;
 			}
 			return null;
 		}
@@ -335,7 +336,7 @@ public class HomeController {
 		HttpSession session = request.getSession();
 		PrivateKey privateKey = (PrivateKey) session.getAttribute("rsaPrivateKey");
 
-		if(privateKey == null) {
+		if(privateKey == null && securedId != "admin") {
 			throw new RuntimeException("암호화 비밀키 정보를 찾을 수 없음");
 		}
 		

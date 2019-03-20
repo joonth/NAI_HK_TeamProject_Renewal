@@ -90,6 +90,12 @@
 		  <version>2.9.7</version>
 		</dependency>	
 		<!-- 이한준  -->
+	
+		<dependency>
+		    <groupId>org.json</groupId>
+		    <artifactId>json</artifactId>
+		    <version>20180813</version>
+		</dependency>
 		
 		<!-- websocket  -->
 		<dependency>
