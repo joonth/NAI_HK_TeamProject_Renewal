@@ -21,6 +21,8 @@ before_deploy:
       run="no";   
     fi
     
+after_script:
+    sudo chmod 755 execute-deploy.sh
   
 deploy:
   - provider: s3
