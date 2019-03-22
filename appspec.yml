@@ -4,6 +4,14 @@ files:
   - source: /
     destination: /home/ec2-user/app/travis/build/
 
+permissions:
+  - object: /home/ec2-user/app/travis/build
+    pattern: "*.sh"
+    owner: ec2-user
+    mode: 777
+    type:
+     - file
+
 hooks:
   AfterInstall: # 배포가 끝나면 아래 명령어를 실행
     - location: execute-deploy.sh
