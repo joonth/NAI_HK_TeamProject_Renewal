@@ -22,7 +22,7 @@ before_deploy:
     fi
     
 after_script:
-    sudo chmod 755 execute-deploy.sh
+    sudo chmod 755 /home/ec2-user/app/travis/build/execute-deploy.sh
   
 deploy:
   - provider: s3
