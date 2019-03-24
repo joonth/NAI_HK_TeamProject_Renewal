@@ -17,6 +17,10 @@
 <script type="text/javascript" src="resources/js/jsa/rng.js"></script>
 </head>
 <body>
+<div id="guide">
+	<p>id: admin / pw: admin</p>
+	<p>관리자만 message기능 사용 가능합니다.</p>
+</div>
 <div id="signin-container" class="container">
 	<form>
 		<h1><img src="./resources/images/detective.png">국과수</h1>
